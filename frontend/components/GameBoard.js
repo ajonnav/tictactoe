@@ -1,15 +1,20 @@
 export default function GameBoard() {
+  const currState = {
+    tiles: ['x','o','x','','','','','',''],
+  }
+  const boxes = currState.tiles.map((tile, i) => {
+    const boxId = `box-${i}`;
+    if(tile === 'x') {
+      return (<div class="box" id={boxId}>X</div>)
+    } else if (tile === 'o') {
+      return (<div class="box" id={boxId}>O</div>)
+    } else {
+      return (<div class="box" id={boxId}></div>)
+    }
+  });
   return (
     <div id="board">
-      <div class="box" id="box-1"></div>
-      <div class="box" id="box-2"></div>
-      <div class="box" id="box-3"></div>
-      <div class="box" id="box-4"></div>
-      <div class="box" id="box-5"></div>
-      <div class="box" id="box-6"></div>
-      <div class="box" id="box-7"></div>
-      <div class="box" id="box-8"></div>
-      <div class="box" id="box-9"></div>
+      {boxes}
     </div>
   )
 }

@@ -1,19 +1,25 @@
-#box-1, #box-2, #box-3, #box-4, #box-5, #box-6 {
-  border-bottom: black solid 1px;
+#box-0, #box-1, #box-2, #box-3, #box-4, #box-5 {
+  border-bottom: black solid 3px;
 }
 
-#box-1, #box-2, #box-4, #box-5, #box-7, #box-8 {
-  border-right: black solid 1px;
+#box-0, #box-1, #box-3, #box-4, #box-6, #box-7 {
+  border-right: black solid 3px;
 }
 
 
 #board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 400px;
-  height: 400px;
+  width: 402px;
+  height: 402px;
 }
 
 .box {
   background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  width: 134px;
+  height: 134px;
 }
