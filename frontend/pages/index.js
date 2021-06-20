@@ -17,7 +17,11 @@ export default function Home() {
 
   const newGameHandler = async event => {
     event.preventDefault();
+    const user = supabase.auth.user()
     const res = await fetch('/api/game', {
+      body: JSON.stringify({
+        user_id: user.id,
+      }),
       headers: {
         'Content-Type': 'application/json'
       },

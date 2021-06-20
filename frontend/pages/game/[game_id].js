@@ -3,8 +3,6 @@ import GameBoard from '../../components/GameBoard'
 import { supabase } from '../../utils/supabaseClient'
 import { useState } from 'react';
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
-
 const Game = ({current_state}) => {
   const [currState, setCurrState] = useState(current_state);
   const router = useRouter()
@@ -20,10 +18,12 @@ const Game = ({current_state}) => {
 
   const onEmptyCellClickHandler = async (event) => {
     event.preventDefault();
+    const user = supabase.auth.user()
     const cellNumber = event.target["id"].replace("box-", "");
     const res = await fetch(`/api/game/${game_id}/place`, {
       body: JSON.stringify({
         cell_number: cellNumber,
+        user_id: user.id,
       }),
       headers: {
         'Content-Type': 'application/json'
