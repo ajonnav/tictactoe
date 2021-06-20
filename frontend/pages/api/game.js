@@ -2,9 +2,12 @@ import { supabase } from '../../utils/supabaseClient'
 
 export default async function handler(req, res) {
   if(req.method === 'POST') {
+    const currState = {
+      tiles: ['','','','','','','','',''],
+    }
     const { data, error } = await supabase
       .from('games')
-      .insert([{}]);
+      .insert([{current_state: currState}]);
     console.log(data);
     console.log(error);
     if(error !== null) {

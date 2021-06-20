@@ -16,7 +16,6 @@ export default function Home() {
   }, [])
 
   const newGameHandler = async event => {
-    console.log('here');
     event.preventDefault();
     const res = await fetch('/api/game', {
       headers: {
@@ -24,9 +23,7 @@ export default function Home() {
       },
       method: 'POST'
     });
-    console.log('here 2');
     const result = await res.json();
-    console.log(result);
     const { id } = result;
     router.push(`/game/${id}`);
   };
