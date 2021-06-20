@@ -20,17 +20,9 @@ export default async function handler(req, res) {
       return
     }
     const { current_state, current_state: { tiles }, player_1, player_2 } = games[0];
-    const { currPlayer, currTile } = tiles.reduce((prevState, currVal) => {
-      const { currPlayer, currTile } = prevState;
-      if(currVal !== '') {
-        if(currPlayer === player_1) {
-          return { currPlayer: player_2, currTile: 'o' };
-        } else {
-          return { currPlayer: player_1, currTile: 'x' };
-        }
-      }
-      return prevState;
-    }, { currPlayer: player_1, currTile: 'x' })
+    const { currPlayer, currTile } = calculateTurn(tiles, player_1, player_2);
+    console.log(`Tiles ${tiles}, ${tiles[cell_number]}`)
+    console.log(`Players ${user_id}, ${currPlayer}`)
     if(tiles[cell_number] === '' && user_id === currPlayer) {
       console.log(`Can place tile at ${cell_number}`);
       tiles[cell_number] = currTile;
@@ -50,4 +42,18 @@ export default async function handler(req, res) {
       res.status(200).json({});
     }
   }
+}
+
+export function calculateTurn(tiles, player_1, player_2) {
+  return tiles.reduce((prevState, currVal) => {
+    const { currPlayer, currTile } = prevState;
+    if(currVal !== '') {
+      if(currPlayer === player_1) {
+        return { currPlayer: player_2, currTile: 'o' };
+      } else {
+        return { currPlayer: player_1, currTile: 'x' };
+      }
+    }
+    return prevState;
+  }, { currPlayer: player_1, currTile: 'x' })
 }

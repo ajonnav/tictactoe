@@ -1,6 +1,6 @@
 import { supabase } from '../../utils/supabaseClient'
 
-const computer_uuid = '2d3df715-ae42-4194-b390-4c7aae079782';
+export const computer_uuid = '2d3df715-ae42-4194-b390-4c7aae079782';
 
 export default async function handler(req, res) {
   if(req.method === 'POST') {
