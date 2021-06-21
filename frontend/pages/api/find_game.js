@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       .neq('user_id', user_id)
       .order('id', { ascending: true })
 
-    console.log(game_queue)
     if(game_queue.length > 0) {
       const { id: game_queue_id, user_id: other_user_id } = game_queue[0];
       const currState = {

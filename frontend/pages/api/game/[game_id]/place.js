@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     if(error !== null) {
       // TODO: handle error better
       console.log(error);
+      res.status(500).json({error})
       return
     }
     const { cell_number, user_id } = req.body;
