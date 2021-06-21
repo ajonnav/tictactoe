@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       .from('games')
       .select('*')
       .not('winner', 'is', null)
-      .order('completed_time, id', { ascending: false })
+      .order('completed_time', { ascending: false })
       .range((page-1) * pageSize, (page) * pageSize - 1 )
     if(error !== null) {
       res.status(500).json({error});
