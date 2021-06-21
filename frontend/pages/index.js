@@ -77,8 +77,8 @@ async function findGame(router, user) {
         const { new: { game_id: next_game_id }, eventType } = payload;
         if(eventType !== 'DELETE') {
           removeFromGameQueue(user.id);
+          router.push(`/game/${next_game_id}`);
         }
-        router.push(`/game/${next_game_id}`);
       })
       .subscribe()
   } else {
