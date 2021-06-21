@@ -33,7 +33,7 @@ export async function removeFromGameQueue(user_id) {
     from('game_queue')
     .delete()
     .eq('user_id', user_id)
-  if(error !== null) {
+  if(deleteError !== null) {
     console.log('error removing from queue');
     console.log(deleteError);
   }
