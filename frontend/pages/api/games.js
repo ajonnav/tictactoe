@@ -7,13 +7,13 @@ export default async function handler(req, res) {
       .select('id', { count: 'exact' })
       .not('winner', 'is', null)
     if(countError !== null) {
-      res.status(500).json({countError});
+      res.status(500).json({error: countError});
       return
     }
 
     const { page } = req.query;
     const pageSize = 10;
-    const { data: items, error: error } = await supabase
+    const { data: items, error } = await supabase
       .from('games')
       .select('*')
       .not('winner', 'is', null)
