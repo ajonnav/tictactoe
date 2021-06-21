@@ -23,5 +23,18 @@ export default async function handler(req, res) {
         res.status(200).json(data[0]);
       }
     }
+
+    removeFromGameQueue(user_id)
+  }
+}
+
+export async function removeFromGameQueue(user_id) {
+  const { data: deleteData, error: deleteError } = await supabase.
+    from('game_queue')
+    .delete()
+    .eq('user_id', user_id)
+  if(error !== null) {
+    console.log('error removing from queue');
+    console.log(deleteError);
   }
 }

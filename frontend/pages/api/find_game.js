@@ -1,4 +1,5 @@
 import { supabase } from '../../utils/supabaseClient'
+import { removeFromGameQueue } from './game'
 
 export default async function handler(req, res) {
   if(req.method === 'POST') {
@@ -43,6 +44,7 @@ export default async function handler(req, res) {
         return
       }
       res.status(200).json({game_id})
+      removeFromGameQueue(user_id);
     } else {
       // no one in queue
       let { data, error } = await supabase

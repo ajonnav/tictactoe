@@ -3,6 +3,7 @@ import { supabase } from '../utils/supabaseClient'
 import Auth from '../components/Auth'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router'
+import { removeFromGameQueue } from './api/game'
 
 export default function Home() {
   const [session, setSession] = useState(null)
@@ -73,7 +74,10 @@ async function findGame(router, user) {
     const games = supabase
       .from(`game_queue:id=eq.${game_queue_id}`)
       .on('*', payload => {
-        const { new: { game_id: next_game_id } } = payload;
+        const { new: { game_id: next_game_id }, eventType } = payload;
+        if(eventType !== 'DELETE') {
+          removeFromGameQueue(user.id);
+        }
         router.push(`/game/${next_game_id}`);
       })
       .subscribe()
