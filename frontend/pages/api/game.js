@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     if(error !== null) {
       res.status(400).json(error);
     } else {
-      if(data.length > 1) {
+      if(data.length !== 1) {
         res.status(400).json({error: 'error creating game'});
       } else {
         res.status(200).json(data[0]);

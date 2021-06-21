@@ -9,7 +9,7 @@ export default function Navbar() {
     <div>
       <Link href="/"><button>Home</button></Link>
       <Link href="/stats"><button>Stats</button></Link>
-      <button className="button block" onClick={() => supabase.auth.signOut()}>Sign Out</button>
+      <button className="button block" onClick={() => supabase.auth.signOut() && router.push("/")}>Sign Out</button>
       { user && <div>You are: {user.id}</div>}
     </div>
   )
