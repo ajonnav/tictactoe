@@ -3,7 +3,7 @@ import GameBoard from '../../components/GameBoard'
 import { supabase } from '../../utils/supabaseClient'
 import { useState } from 'react';
 import { computer_uuid } from '../api/game'
-import { calculateTurn } from '../api/game/[game_id]/place'
+import { calculateTurn, calculateWinner } from '../api/game/[game_id]/place'
 
 const Game = ({ current_state, player_1, player_2 }) => {
   const [currState, setCurrState] = useState(current_state);
@@ -11,7 +11,6 @@ const Game = ({ current_state, player_1, player_2 }) => {
   const router = useRouter()
   const { game_id } = router.query
 
-  console.log(`Here ${subscription}`);
   if(!subscription) {
     const games = supabase
       .from(`games:id=eq.${game_id}`)
@@ -47,11 +46,13 @@ const Game = ({ current_state, player_1, player_2 }) => {
 
   const { tiles } = currState;
   const { currPlayer, currTile } = calculateTurn(tiles, player_1, player_2);
-  if(currPlayer === computer_uuid) {
+  const winner = calculateWinner(tiles, player_1, player_2);
+
+  if(winner === null && currPlayer === computer_uuid) {
     playComputerTurn(game_id, tiles);
   }
 
-  return <GameBoard currState={currState} onEmptyCellClickHandler={onEmptyCellClickHandler}/>;
+  return <GameBoard currState={currState} onEmptyCellClickHandler={onEmptyCellClickHandler} winner={winner}/>;
 }
 
 export async function getServerSideProps(context) {
