@@ -27,11 +27,17 @@
 .table {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
+  max-height: 500px;
+}
+
+.table .leaderboard {
+  grid-column-start: 2;
+  grid-column-end: 3;
 }
 
 .table-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-items: center;
 }
 
@@ -45,5 +51,5 @@
 
 .nav-control {
   text-align: center;
-  width: 50px;
+  max-width: 100px;
 }
