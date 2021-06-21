@@ -19,27 +19,41 @@ export default async function handler(req, res) {
       res.status(500).json({error: 'error querying for current game state'});
       return
     }
-    const { current_state, current_state: { tiles }, player_1, player_2 } = games[0];
+    const { current_state, current_state: { tiles }, player_1, player_2, winner: db_winner } = games[0];
     const { currPlayer, currTile } = calculateTurn(tiles, player_1, player_2);
     const currWinner = calculateWinner(tiles, player_1, player_2);
     if(tiles[cell_number] === '' && user_id === currPlayer && currWinner === null) {
       console.log(`Can place tile at ${cell_number}`);
       tiles[cell_number] = currTile;
-      const winner = calculateWinner(tiles, player_1, player_2);
       current_state.tiles = tiles;
       const { data, error: updateError } = await supabase
         .from('games')
         .update({ current_state: current_state })
         .eq('id', game_id)
+
       if(updateError !== null) {
           // TODO: handle error better
           res.status(500).json({error: 'error updating game state'});
           return
       }
+
       res.status(200).json(data);
     } else {
       console.log(`CANNOT place tile at ${cell_number}`);
       res.status(200).json({});
+    }
+
+    const winner = calculateWinner(current_state.tiles, player_1, player_2);
+    if(db_winner === null && winner !== null) {
+      console.log()
+      const { data: rpcData, error: rpcError } = await supabase
+        .rpc('finish_game', { game_id, game_winner: winner })
+      if(rpcError !== null) {
+        // TODO: handle error better
+        console.log(`Error finishing game`);
+        console.log(rpcError);
+        return
+      }
     }
   }
 }
