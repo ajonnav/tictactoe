@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       .select('*')
       .is('game_id', null)
       .neq('user_id', user_id)
+      .order('id', { ascending: true })
 
     console.log(game_queue)
     if(game_queue.length > 0) {

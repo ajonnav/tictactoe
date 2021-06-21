@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import GameBoard from '../../components/GameBoard'
+import Navbar from '../../components/Navbar'
 import { supabase } from '../../utils/supabaseClient'
 import { useState } from 'react';
 import { computer_uuid } from '../api/game'
@@ -52,7 +53,14 @@ const Game = ({ current_state, player_1, player_2 }) => {
     playComputerTurn(game_id, tiles);
   }
 
-  return <GameBoard currState={currState} onEmptyCellClickHandler={onEmptyCellClickHandler} winner={winner}/>;
+  return (
+    <div>
+      <Navbar/>
+      <br/>
+      <GameBoard currState={currState} onEmptyCellClickHandler={onEmptyCellClickHandler} player_1={player_1} player_2={player_2} winner={winner}/>
+    </div>
+  );
+
 }
 
 export async function getServerSideProps(context) {

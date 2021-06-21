@@ -21,8 +21,6 @@ export default async function handler(req, res) {
       res.status(500).json({error});
       return
     }
-    console.log(((page) * pageSize - 1));
-    console.log(all_ids.length);
     res.status(200).json({ items, hasNext: ((page) * pageSize - 1) < all_ids.length })
   }
 }

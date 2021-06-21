@@ -1,4 +1,4 @@
-export default function GameBoard({currState, onEmptyCellClickHandler, winner}) {
+export default function GameBoard({currState, onEmptyCellClickHandler, player_1, player_2, winner}) {
   const boxes = currState.tiles.map((tile, i) => {
     const boxId = `box-${i}`;
     if(tile === 'x') {
@@ -13,6 +13,7 @@ export default function GameBoard({currState, onEmptyCellClickHandler, winner}) 
   });
   return (
     <div>
+      <div>{player_1} vs {player_2}</div>
       {winner !== null && <div>
         {winner} is the winner!!
         </div>
@@ -20,7 +21,6 @@ export default function GameBoard({currState, onEmptyCellClickHandler, winner}) 
       <div id="board">
         {boxes}
       </div>
-      <button href="/">Go home</button>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabaseClient'
 import Auth from '../components/Auth'
-import Account from '../components/Account'
+import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router'
 
 export default function Home() {
@@ -40,21 +40,18 @@ export default function Home() {
       return
     }
     setFindingGame(true);
-    // first see if other players are on the queue
     const user = supabase.auth.user()
     findGame(router, user);
-    // listen for updates on that queue ID
-    // redirect user when a game gets assigned
   }
 
   const multiText = findingGame ? 'Finding game...' : 'Find Multiplayer Game';
-  console.log(session);
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+    <div className="container">
       {!session ? <Auth /> : <div>
-        <Account key={session.user.id} session={session}/>
-        <button id="new-game-btn" onClick={newComputerGameHandler}>Start New Game</button>
-        <button id="new-game-btn" onClick={newMultiplayerGameHandler} enabled={!findingGame}>{multiText}</button>
+        <Navbar/>
+        <br/>
+        <button id="new-comp-game-btn" onClick={newComputerGameHandler}>Start New Game</button>
+        <button id="new-multi-game-btn" onClick={newMultiplayerGameHandler} enabled={!findingGame}>{multiText}</button>
       </div>}
     </div>
   )
@@ -76,7 +73,6 @@ async function findGame(router, user) {
     const games = supabase
       .from(`game_queue:id=eq.${game_queue_id}`)
       .on('*', payload => {
-        console.log(payload);
         const { new: { game_id: next_game_id } } = payload;
         router.push(`/game/${next_game_id}`);
       })
