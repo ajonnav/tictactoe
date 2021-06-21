@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabaseClient'
 import Auth from '../components/Auth'
+import Account from '../components/Account'
 import { useRouter } from 'next/router'
 
 export default function Home() {
@@ -47,9 +48,11 @@ export default function Home() {
   }
 
   const multiText = findingGame ? 'Finding game...' : 'Find Multiplayer Game';
+  console.log(session);
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? <Auth /> : <div>
+        <Account key={session.user.id} session={session}/>
         <button id="new-game-btn" onClick={newComputerGameHandler}>Start New Game</button>
         <button id="new-game-btn" onClick={newMultiplayerGameHandler} enabled={!findingGame}>{multiText}</button>
       </div>}
@@ -69,9 +72,7 @@ async function findGame(router, user) {
   });
   const result = await res.json();
   const { game_id, game_queue_id } = result;
-  console.log(`Here ${game_id}, ${game_queue_id}`);
   if(!game_id) {
-    console.log(`I am in the subscription business`);
     const games = supabase
       .from(`game_queue:id=eq.${game_queue_id}`)
       .on('*', payload => {
